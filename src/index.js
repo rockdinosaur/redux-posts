@@ -1,14 +1,18 @@
-import { createPost, editPost, setFilter } from './actions'
-import appReducer from './reducers'
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
-let state = appReducer(undefined, { type: 'INIT_ACTION' })
-console.log('initial state:', state)
+import { createPost } from './actions';
+import appReducer from './reducers';
+import CustomConnectedPostList from './containers/CustomConnectedPostList';
+import ConnectedPostList from './containers/ConnectedPostList';
 
-state = appReducer(state, createPost('dan', 'test'))
-console.log('state after createPost:', state)
+const store = createStore(appReducer);
+store.dispatch(createPost('steve', 'first post'));
+setTimeout(() => store.dispatch(createPost('dan', 'hi!')), 1000);
 
-state = appReducer(state, editPost(0, 'edited post'))
-console.log('state after editPost:', state)
-
-state = appReducer(state, setFilter('none'))
-console.log('state after setFilter:', state)
+ReactDOM.render( 
+  <Provider><ConnectedPostList store={store} /></Provider>,
+  document.getElementById('root')
+)

@@ -1,12 +1,14 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import { createPost, editPost, setFilter } from './actions'
+import appReducer from './reducers'
 
-ReactDOM.render(<App />, document.getElementById('root'));
+let state = appReducer(undefined, { type: 'INIT_ACTION' })
+console.log('initial state:', state)
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+state = appReducer(state, createPost('dan', 'test'))
+console.log('state after createPost:', state)
+
+state = appReducer(state, editPost(0, 'edited post'))
+console.log('state after editPost:', state)
+
+state = appReducer(state, setFilter('none'))
+console.log('state after setFilter:', state)
